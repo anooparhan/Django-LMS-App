@@ -1,0 +1,138 @@
+
+{% load form_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Course</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f1f1f1;
+        }
+
+        .upload-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .upload-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .btn-upload {
+            background-color: #007bff;
+            border: none;
+            margin-top: 25px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+        .btn-upload:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-control, .form-control-file {
+            border-radius: 8px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+        }
+
+        img#imagePreview {
+            display: none;
+            max-width: 100%;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Learning Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="btn btn-warning" href="{% url 'teacher_dashboard' %}">Back to teachers_dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'upload_course' %}">Upload Course</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Upload Course Form -->
+    <div class="upload-container">
+        <h1>Upload Course</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                {{ form.title|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.file.id_for_label }}" class="form-label">{{ form.file.label }}</label>
+                {{ form.file|add_class:"form-control-file" }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
+                {{ form.image|add_class:"form-control-file" }}
+                <img id="imagePreview" alt="Image preview" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-upload">Upload</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.querySelector("input[type='file']").addEventListener("change", function(event) {
+            const input = event.target;
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imagePreview = document.getElementById("imagePreview");
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+{% comment %} <!-- templates/courses/enrolled_courses.html -->
+<h2>Your Enrolled Courses</h2>
+
+{% if courses %}
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.title }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You are not enrolled in any courses.</p>
+{% endif %} {% endcomment %}
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Enrolled Courses</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">  <!-- Link to your custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .card {
+            margin: 20px 0; /* Space between cards */
+        }
+        h2 {
+            text-align: center; /* Center the heading */
+            margin: 20px 0; /* Add margin */
+        }
+        .no-courses {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d; /* Muted color for the message */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Your Enrolled Courses</h2>
+
+        {% if courses %}
+            <div class="row">
+                {% for course in courses %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <p class="card-text">{{ course.description }}</p>
+                                <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">View Course</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-courses">You are not enrolled in any courses.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Enrolled Courses</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">  <!-- Link to your custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        
+        .navbar {
+            background-color: #343a40; /* Dark background for navbar */
+        }
+
+        .navbar a {
+            color: white !important; /* White text for navbar links */
+        }
+
+        .card {
+            margin: 20px 0; /* Space between cards */
+            border: 1px solid #007bff; /* Add border color to the card */
+            border-radius: 10px; /* Rounded corners */
+        }
+        
+        .card-title {
+            color: #007bff; /* Custom color for card title */
+        }
+
+        h2 {
+            text-align: center; /* Center the heading */
+            margin: 20px 0; /* Add margin */
+            color: #343a40; /* Darker heading color */
+        }
+
+        .no-courses {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d; /* Muted color for the message */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Primary button color */
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Your Site</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'student_dashboard' %}">Student_dashboard</a>
+                </li>
+               
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2>Your Enrolled Courses</h2>
+
+        {% if courses %}
+            <div class="row">
+                {% for course in courses %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <p class="card-text">{{ course.description }}</p>
+                                <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">View Course</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-courses">You are not enrolled in any courses.</p>
+        {% endif %}
+    </div>
+
+    <!-- Scripts for Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .quiz-title {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .response-item {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .btn-custom {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #45a049;
+        }
+        /* Navbar styles */
+        .navbar-custom {
+            background-color: #6c757d;;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: white;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #FFD700; /* Gold color on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Teacher Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="btn btn-warning mb-2 mr-3" href="{% url 'course_list' %}">Home</a> <!-- Add 'mr-3' for right margin -->
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-warning" href="{% url 'upload_course' %}">Upload Course</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    
+    <div class="dashboard-container">
+        {% comment %} <h1 class="text-center">Welcome to the Teacher Dashboard</h1> {% endcomment %}
+        <h3 class="text-center"><a href="{% url 'create_quiz' %}" class="btn btn-custom mb-3">Add New Quiz</a></h3>
+
+        <!-- Loop through quizzes -->
+        {% for quiz in quizzes %}
+            <div class="quiz-title">Quiz Subject: {{ quiz.title }} (Created on: {{ quiz.created_at }})</div>
+
+            <!-- Display responses for each quiz -->
+            <h3>Responses:</h3>
+            <form method="POST" action="{% url 'assign_marks' quiz.id %}">
+                {% csrf_token %}
+                <ul class="list-unstyled">
+                    {% for student_answer in quiz.student_answers.all %}
+                        <li class="response-item">
+                            <strong>Student:</strong> {{ student_answer.student.username }}<br>
+                            <strong>Question:</strong> {{ student_answer.question.question_text }}<br>
+                            <strong>Answer:</strong> {{ student_answer.answer.answer_text }}<br>
+                            <label for="marks_{{ student_answer.id }}">Marks:</label>
+                            <input type="number" class="form-control d-inline-block w-50" name="marks_{{ student_answer.id }}" value="{{ student_answer.marks }}" min="0">
+                        </li>
+                    {% empty %}
+                        <li class="response-item">No responses yet.</li>
+                    {% endfor %}
+                </ul>
+                <button type="submit" class="btn btn-primary">Submit Marks</button>
+            </form>
+            {% comment %} <a href="{% url 'performance_report' quiz.id %}" class="btn btn-info">View Performance Report</a> {% endcomment %}
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

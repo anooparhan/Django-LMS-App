@@ -1,0 +1,30 @@
+<!-- templates/courses/course_detail.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.title }} - Course Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+
+    
+    <div class="container mt-5">
+        <h2>{{ course.title }}</h2>
+        {% if course.image %}
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid mb-3">
+        {% else %}
+            <img src="{% static 'default_image.jpg' %}" alt="Default Course Image" class="img-fluid mb-3">
+        {% endif %}
+        <p>{{ course.description }}</p>
+        <a href="{% url 'enrolled_courses' %}" class="btn btn-secondary">Back to Enrolled Courses</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

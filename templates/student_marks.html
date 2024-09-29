@@ -1,0 +1,61 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Report</title>
+</head>
+<body>
+    <h1>Your Marks and Feedback</h1>
+
+    <!-- Loop through quizzes and show marks -->
+    {% for quiz in quizzes %}
+        <h2>{{ quiz.title }}</h2>
+
+        <h3>Questions and Feedback:</h3>
+        <ul>
+            {% for question in quiz.questions.all %}
+                <li>
+                    {{ question.question_text }}<br>
+                    Your Answer: 
+                    {% for answer in question.answers.all %}
+                        {% if answer.id == student_answers|get_item:question.id %}
+                            {{ answer.answer_text }} (Marks: {{ student_answers|get_marks:answer.id }})<br>
+                            Teacher Feedback: {{ student_answers|get_feedback:answer.id }}
+                        {% endif %}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <li>No quizzes or feedback available.</li>
+    {% endfor %}
+    
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Report for {{ quiz.title }}</title>
+</head>
+<body>
+    <h1>Performance Report for {{ quiz.title }}</h1>
+
+    <ul>
+        {% for student_answer in student_answers %}
+            <li>
+                Student: {{ student_answer.student.username }}<br>
+                Question: {{ student_answer.question.question_text }}<br>
+                Answer: {{ student_answer.answer.answer_text }}<br>
+                Marks: {{ student_answer.marks }}
+            </li>
+        {% empty %}
+            <li>No responses yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>
+

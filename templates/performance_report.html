@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Report for {{ quiz.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'student_dashboard' %}">Quiz Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Performance Report for <strong>{{ quiz.title }}</strong></h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Your Responses</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for entry in report_data %}
+                        <li class="list-group-item">
+                            <strong>Question:</strong> {{ entry.student_answer.question.question_text }}<br>
+                            <strong>Your Answer:</strong> 
+                            <span class="{% if entry.student_answer.answer.is_correct %}text-success{% else %}text-danger{% endif %}">
+                                {{ entry.student_answer.answer.answer_text }}
+                            </span><br>
+                            <strong>Correct Answer:</strong> <span class="text-success">{{ entry.correct_answer.answer_text }}</span><br>
+                            <strong>Marks:</strong> {{ entry.student_answer.marks }}
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No responses yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard Button -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'student_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+
+        <!-- Good Luck Message -->
+        <div class="mt-4 text-center">
+            <h4 class="text-success">Good luck and try again!</h4>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

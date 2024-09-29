@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Answers</title>
+</head>
+<body>
+    <h1>Add Answers to: {{ question.question_text }}</h1>
+
+    <!-- Show existing answers -->
+    <ul>
+        {% for answer in answers %}
+            <li>{{ answer.answer_text }} {% if answer.is_correct %}(Correct){% endif %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if done %}
+        <!-- Show the "Done" button when 4 answers have been added -->
+        <a href="{% url 'teacher_dashboard' %}">
+            <button>Done</button>
+        </a>
+    {% else %}
+        <!-- Display the form to add answers if less than 4 answers exist -->
+        <form method="POST">
+            {% csrf_token %}
+            {{ answer_form.as_p }}
+            <button type="submit">Add Answer</button>
+        </form>
+    {% endif %}
+</body>
+</html>
